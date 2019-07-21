@@ -70,8 +70,8 @@ do-push:
 	docker push $(IMAGE):latest
 	
 post-push:
-          docker rmi $(IMAGE):$(VERSION)
-          docker rmi $(IMAGE):latest
+          docker push $(IMAGE):$(VERSION)
+          docker push $(IMAGE):latest
 
 snapshot: build push
 
