@@ -41,11 +41,6 @@ post-build:
 
 pre-push:
 
-
-post-push:
-
-
-
 docker-build: .release
 	docker build $(DOCKER_BUILD_ARGS) -t $(IMAGE):$(VERSION) $(DOCKER_BUILD_CONTEXT) -f $(DOCKER_FILE_PATH)
 	@DOCKER_MAJOR=$(shell docker -v | sed -e 's/.*version //' -e 's/,.*//' | cut -d\. -f1) ; \
@@ -73,6 +68,10 @@ push: pre-push do-push post-push
 do-push: 
 	docker push $(IMAGE):$(VERSION)
 	docker push $(IMAGE):latest
+	
+post-push:
+        docker rmi $(IMAGE):$(VERSION)
+        docker rmi $(IMAGE):latest
 
 snapshot: build push
 
